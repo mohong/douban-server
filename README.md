@@ -12,5 +12,5 @@
 - 前端
     - AngularJS
 - 后端
-    - Spring + Spring MVC + Mybatis
+    - NodeJS
     - Mysql
