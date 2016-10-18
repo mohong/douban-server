@@ -43,6 +43,23 @@ let moviedao = {
                     } else {
                         console.log(result);
                     }
+                    connection.release();
+                })
+            }
+        })
+    },
+    getMovieByStatus: (status) => {
+        pool.getConnection((error,connection)=>{
+            if (error){
+                throw error;
+            } else {
+                connection.query(movieSQL.getMovieByStatus,[status],(error,result) => {
+                    if (error){
+                        throw error;
+                    } else {
+                        console.log(result);
+                    }
+                    connection.release();
                 })
             }
         })
