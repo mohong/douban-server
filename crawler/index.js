@@ -18,12 +18,14 @@ function getUrl() {
         "https://movie.douban.com/later/beijing/",        //即将上映
     ];
 
-    let baseUrl = 'https://movie.douban.com/top250?start=';
+    let baseUrl = 'https://movie.douban.com/top250?start=';  //top250
     for (let i = 0; i<=100; i += 25){
         let url = baseUrl + i + "&filter=";
         urls.push(url);
+        if (i = 100){
+            console.log('top250 数据抓取完成');
+        }
     }
-    console.log(urls);
     return urls;
 }
 
@@ -73,8 +75,9 @@ function nowPlayingData(error,data) {
         let title = $('a',$('.stitle',listItem)).text();
         let link = $('a',$('.stitle',listItem)).attr('href');
         let rate = $('.subject-rate',$('.srating',listItem)).text();
-
-
+        let status = 'nowplaying';
+        //将数据保存至mysql中
+        moviedao.addMovie(post,title,rate,link,status);
         console.log('nowplaying 数据抓取完成');
     }
 
@@ -90,11 +93,10 @@ function showingSoon(error ,data) {
         let post = $('img',div).attr('src');
         let title = $('h3>a',div).text();
         let link = $('h3>a',div).attr('href');
-
-        console.log('showingSoon====================');
-        console.log(post);
-        console.log(title);
-        console.log(link);
+        let status = 'showingSoon'
+        //将数据保存至mysql中
+        moviedao.addMovie(post,title,null,link,status);
+        console.log('showingSoon 数据抓取完成');
     }
 }
 
@@ -109,12 +111,9 @@ function top250(error,data) {
         let title = $('.info .hd a',li).children().first().text();
         let link = $('.info .hd a',li).attr('href');
         let rate = $('.info .bd div .rating_num',li).text();
-
-
-        console.log('top250=========================');
-        console.log(post);
-        console.log(title);
-        console.log(rate);
-        console.log(link);
+        let status = 'top250'
+        //将数据保存至mysql中
+        moviedao.addMovie(post,title,rate,link,status);
+        console.log('top250 抓取中。。。。。。');
     }
 }
