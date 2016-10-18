@@ -31,6 +31,21 @@ let moviedao = {
                 })
             }
         })
+    },
+    getMovieById: (id) => {
+        pool.getConnection((error,connection) => {
+            if (error){
+                throw error;
+            } else {
+                connection.query(movieSQL.getMovieById,[id],(error,result) => {
+                    if (error){
+                        throw error;
+                    } else {
+                        console.log(result);
+                    }
+                })
+            }
+        })
     }
 }
 

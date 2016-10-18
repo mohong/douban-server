@@ -6,7 +6,7 @@
 'use strict';
 
 let movieSQL = {
-    insert: 'INSERT INTO movie(post,title,rate,link) VALUES(?,?,?,?)',
+    insert: 'INSERT INTO movie(post,title,rate,link,status) VALUES(?,?,?,?,?)',
     queryAll: 'SELECT * FROM movie',
     getMovieById: 'SELECT * FROM movie WHERE id=?'
 };
