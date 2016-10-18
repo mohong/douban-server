@@ -34,5 +34,4 @@ let moviedao = {
     }
 }
 
-
 module.exports = moviedao;
