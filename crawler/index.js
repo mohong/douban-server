@@ -11,23 +11,30 @@ const async = require('async');
 const moviedao = require('../server/dao/moviedao');
 
 
-//需要爬取的网页
+//需要爬取的网页，此处变更，需要同时改动switch中的case；
 function getUrl() {
     let urls = [
         "https://movie.douban.com/nowplaying/beijing/",  //正在上映
         "https://movie.douban.com/later/beijing/",        //即将上映
-        //"https://movie.douban.com/chart"                 //排行榜
     ];
+
+    let baseUrl = 'https://movie.douban.com/top250?start=';
+    for (let i = 0; i<=100; i += 25){
+        let url = baseUrl + i + "&filter=";
+        urls.push(url);
+    }
+    console.log(urls);
     return urls;
 }
 
 let urls = getUrl();
 
 //控制并发量
+
 async.forEach(urls,(url) => {
     fetchUrl(url);
     //console.log(url);
-})
+});
 
 //抓取网页内容
 function fetchUrl(url) {
@@ -49,6 +56,7 @@ function fetchUrl(url) {
                     showingSoon(options.url,body);
                     break;
                 default:
+                    top250(options.url,body);
                     break;
             }
         }
@@ -97,4 +105,23 @@ function showingSoon(error ,data) {
     }
 }
 
+//解析排行榜页面
+function top250(error,data) {
+    let $ = cheerio.load(data);
+    let lis = $('.grid_view').children().toArray();
+    for (let key in lis){
+        let li = lis[key];
 
+        let post = $('div>a>img',li).attr('src');
+        let title = $('.info .hd a',li).children().first().text();
+        let link = $('.info .hd a',li).attr('href');
+        let rate = $('.info .bd div .rating_num',li).text();
+
+
+        console.log('top250=========================');
+        console.log(post);
+        console.log(title);
+        console.log(rate);
+        console.log(link);
+    }
+}
