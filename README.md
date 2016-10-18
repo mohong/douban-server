@@ -16,8 +16,9 @@
     - Mysql
 
 ## 数据库设计
-database： douban
-tables: movie
+- database： douban
+- tables: movie
+- charset: utf8
 
 | 	Field  | 	Type	 | 	  Null	 |	  Key	 |	 Default | 	 Extra      |
 |:---------|:-----------:|:---------:|:---------:|:---------:|:------------:|

@@ -1,0 +1,25 @@
+{
+  "name": "douban",
+  "version": "1.0.0",
+  "description": "一个仿豆瓣电影的网站",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohong/douban.git"
+  },
+  "author": "mohong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohong/douban/issues"
+  },
+  "homepage": "https://github.com/mohong/douban#readme",
+  "dependencies": {
+    "async": "^2.1.2",
+    "cheerio": "^0.22.0",
+    "mysql": "^2.11.1",
+    "request": "^2.75.0"
+  }
+}
