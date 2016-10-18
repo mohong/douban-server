@@ -14,14 +14,14 @@ const movieSQL = require('../../DB/movieSQL');
 const pool = mysql.createPool(dbConfig.mysql);
 
 let moviedao = {
-    addMovie: (post,title,rate,link) => {
+    addMovie: (post,title,rate,link,status) => {
         //从连接池中获取连接
         pool.getConnection((error,connection) => {
             if (error){
                 throw error;
             } else {
                 //建立连接，增加一个用户
-                connection.query(movieSQL.insert,[post,title,rate,link],(error) => {
+                connection.query(movieSQL.insert,[post,title,rate,link,status],(error) => {
                     if (error){
                         throw error;
                     } else {

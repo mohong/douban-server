@@ -30,10 +30,8 @@ function getUrl() {
 let urls = getUrl();
 
 //控制并发量
-
 async.forEach(urls,(url) => {
     fetchUrl(url);
-    //console.log(url);
 });
 
 //抓取网页内容
@@ -77,12 +75,7 @@ function nowPlayingData(error,data) {
         let rate = $('.subject-rate',$('.srating',listItem)).text();
 
 
-        console.log('nowplaying=========================');
-        console.log(post);
-        console.log(title);
-        console.log(rate);
-        console.log(link);
-
+        console.log('nowplaying 数据抓取完成');
     }
 
 }
