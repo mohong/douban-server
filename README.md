@@ -27,4 +27,17 @@
 |  title   | varchar(255)|    yes    |    -      |    Null   |      -       |  
 |  rate    |  float(4)   |    yes    |    -		 |    Null   |		-		|
 |  link    | varchar(255)|    yes    |    -      |    Null   |      -       |   
-    
+| status   | varchar(255)|    yes    |    -      |    Null   |      -       |
+
+参数说明
+
+`id`：主键，自增
+`post`：电影封面的链接地址
+`title`：电影标题
+`rate`：平均评分
+`link`：豆瓣的电影详情页面地址
+`status`：电影状态，有两个值
+ - `nowplaying` 正在上映
+ - `later` 即将上映
+
+
