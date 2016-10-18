@@ -14,3 +14,16 @@
 - 后端
     - NodeJS
     - Mysql
+
+## 数据库设计
+database： douban
+tables: movie
+
+| 	Field  | 	Type	 | 	  Null	 |	  Key	 |	 Default | 	 Extra      |
+|:---------|:-----------:|:---------:|:---------:|:---------:|:------------:|
+|   id     |   int(10)	 |     No    |    PRI    |    Null   |auto_increment|
+|  post    | varchar(255)|    yes    |    -	     |    Null   |      -       |
+|  title   | varchar(255)|    yes    |    -      |    Null   |      -       |  
+|  rate    |  float(4)   |    yes    |    -		 |    Null   |		-		|
+|  link    | varchar(255)|    yes    |    -      |    Null   |      -       |   
+    
