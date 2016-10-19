@@ -71,6 +71,7 @@ let moviedao = {
                             return {
                                 id : c.id,
                                 title : c.title.replace(/[\n]/g,""),
+                                post: c.post,
                                 rate : c.rate,
                                 link : c.link,
                                 status : c.status

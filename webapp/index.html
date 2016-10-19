@@ -3,10 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <style>
+        ul {
+            width: 100%;
+            height: 230px;
+            border: 1px solid grey;
+            position: relative;
+        }
+        ul li {
+            margin: 0;
+            padding:0;
+            list-style-type: none;
+        }
+        ul li img {
+            display: block;
+            height: 100px;
+            position: relative;
+        }
+    </style>
 </head>
 <body>
 
-这是首页,测试跨域，请查看控制台
+<div id="container">
+
+</div>
 
 
 <script src="resource/jquery-1.11.1.js"></script>
@@ -19,13 +39,28 @@
         dataType: "jsonp",
         jsonpCallback:"nowplaying",
         success: function(data){
-            console.log(data);
+            for (var key in data){
+                var item = data[key];
+                showData(item);
+            }
         },
         error: function (error) {
             console.log('请求失败');
         }
     });
 
+    function showData(item) {
+       var str = '' ;
+        str += '<ul>';
+        str += '<h2>'+item.title+'</h2>';
+        str += '<li><img src="'+item.post+'" alt=""></li>';
+        str += '<li>'+item.rate+'</li>';
+        str += '<li><a href="'+item.link+'">去豆瓣查看</a></li>';
+        str += '</ul>';
+
+        $("#container").append(str);
+    }
+    
 </script>
 </body>
 </html>
