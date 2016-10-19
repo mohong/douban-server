@@ -9,6 +9,7 @@
 const mysql = require('mysql');
 const dbConfig = require('../../DB/DBConfig');
 const movieSQL = require('../../DB/movieSQL');
+const $ = require('underscore');
 
 //使用dbConfig创建一个连接池
 const pool = mysql.createPool(dbConfig.mysql);
@@ -32,7 +33,7 @@ let moviedao = {
             }
         })
     },
-    getMovieById: (id) => {
+    getMovieById: (id,callback) => {
         pool.getConnection((error,connection) => {
             if (error){
                 throw error;
@@ -41,12 +42,18 @@ let moviedao = {
                     if (error){
                         throw error;
                     } else {
-                        console.log(result);
+                        let item = $.map(result,(c)=>{
+                            return {
+                                id : c.id,
+                                title : c.title
+                            };
+                        });
+                        callback(item);
                     }
                     connection.release();
                 })
             }
-        })
+        });
     },
     getMovieByStatus: (status) => {
         pool.getConnection((error,connection)=>{
@@ -57,7 +64,7 @@ let moviedao = {
                     if (error){
                         throw error;
                     } else {
-                        console.log(result);
+                        return result;
                     }
                     connection.release();
                 })
