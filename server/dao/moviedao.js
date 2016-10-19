@@ -52,14 +52,13 @@ let moviedao = {
                             };
                         });
                         callback(item);
-                        console.log(item);
                     }
                     connection.release();
                 })
             }
         });
     },
-    getMovieByStatus: (status) => {
+    getMovieByStatus: (status,callback) => {
         pool.getConnection((error,connection)=>{
             if (error){
                 throw error;
@@ -68,7 +67,17 @@ let moviedao = {
                     if (error){
                         throw error;
                     } else {
-                        return result;
+                        let item = $.map(result,(c)=>{
+                            return {
+                                id : c.id,
+                                title : c.title.replace(/[\n]/g,""),
+                                rate : c.rate,
+                                link : c.link,
+                                status : c.status
+                            };
+                        });
+                        callback(item);
+                        console.log(item);
                     }
                     connection.release();
                 })

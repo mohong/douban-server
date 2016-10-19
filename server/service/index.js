@@ -14,10 +14,16 @@ const sever = http.createServer((req,res)=>{
     let reqPath = url.parse(req.url,true).pathname;
     console.log(reqPath);
     switch (reqPath){
-        case '/nowplaying':
+        case '/getmoviebyid':
             moviedao.getMovieById(280,function (data) {
                 res.writeHead(200,{'content-Type':'text/html'});
-                res.end(JSON.stringify(data[0]));
+                res.end(JSON.stringify(data));
+            });
+            break;
+        case '/nowplaying':
+            moviedao.getMovieByStatus('nowplaying',function (data) {
+                res.writeHead(200,{'content-Type':'text/html'});
+                res.end(JSON.stringify(data));
             });
             break;
         default:
