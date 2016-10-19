@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+
+这是首页,测试跨域，请查看控制台
+
+
+<script src="resource/jquery-1.11.1.js"></script>
+<script type="text/javascript">
+
+    $.ajax({
+        type: "GET",
+        async: 'false',
+        url: "http://127.0.0.1:8888/nowplaying",
+        dataType: "jsonp",
+        jsonpCallback:"nowplaying",
+        success: function(data){
+            console.log(data);
+        },
+        error: function (error) {
+            console.log('请求失败');
+        }
+    });
+
+</script>
+</body>
+</html>

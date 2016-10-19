@@ -77,7 +77,6 @@ let moviedao = {
                             };
                         });
                         callback(item);
-                        console.log(item);
                     }
                     connection.release();
                 })
