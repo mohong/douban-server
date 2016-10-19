@@ -45,10 +45,14 @@ let moviedao = {
                         let item = $.map(result,(c)=>{
                             return {
                                 id : c.id,
-                                title : c.title
+                                title : c.title.replace(/[\n]/g,""),
+                                rate : c.rate,
+                                link : c.link,
+                                status : c.status
                             };
                         });
                         callback(item);
+                        console.log(item);
                     }
                     connection.release();
                 })

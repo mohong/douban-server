@@ -7,11 +7,23 @@
 
 const http = require('http');
 const url = require('url');
+const moviedao = require('../dao/moviedao');
 
 const sever = http.createServer((req,res)=>{
     //获取客户端请求路径
     let reqPath = url.parse(req.url,true).pathname;
     console.log(reqPath);
+    switch (reqPath){
+        case '/nowplaying':
+            moviedao.getMovieById(280,function (data) {
+                res.writeHead(200,{'content-Type':'text/html'});
+                res.end(JSON.stringify(data[0]));
+            });
+            break;
+        default:
+            console.log('请求路径不合法');
+            break;
+    }
 });
 
 sever.listen(8888,(error)=>{
