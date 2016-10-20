@@ -1,66 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" ng-app="moviecat">
 <head>
-    <meta charset="UTF-8">
-    <title>首页</title>
-    <style>
-        ul {
-            width: 100%;
-            height: 230px;
-            border: 1px solid grey;
-            position: relative;
-        }
-        ul li {
-            margin: 0;
-            padding:0;
-            list-style-type: none;
-        }
-        ul li img {
-            display: block;
-            height: 100px;
-            position: relative;
-        }
-    </style>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>我的豆瓣</title>
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
-<div id="container">
-
-</div>
 
 
-<script src="resource/jquery-1.11.1.js"></script>
-<script type="text/javascript">
+<script src="//cdn.bootcss.com/angular.js/1.5.7/angular.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.5.7/angular-route.js"></script>
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    $.ajax({
-        type: "GET",
-        async: 'false',
-        url: "http://127.0.0.1:8888/nowplaying",
-        dataType: "jsonp",
-        jsonpCallback:"nowplaying",
-        success: function(data){
-            for (var key in data){
-                var item = data[key];
-                showData(item);
-            }
-        },
-        error: function (error) {
-            console.log('请求失败');
-        }
-    });
+<script src="components/http.js"></script>
+<script src="movie_detail/controller.js"></script>
+<script src="movie_list/controller.js"></script>
 
-    function showData(item) {
-       var str = '' ;
-        str += '<ul>';
-        str += '<h2>'+item.title+'</h2>';
-        str += '<li><img src="'+item.post+'" alt=""></li>';
-        str += '<li>'+item.rate+'</li>';
-        str += '<li><a href="'+item.link+'">去豆瓣查看</a></li>';
-        str += '</ul>';
-
-        $("#container").append(str);
-    }
-    
-</script>
+<script src="js/app.js"></script>
 </body>
 </html>
