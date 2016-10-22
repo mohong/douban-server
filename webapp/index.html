@@ -3,35 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
-        ul {
-            width: 100%;
-            height: 230px;
-            border: 1px solid grey;
-            position: relative;
-        }
-        ul li {
-            margin: 0;
-            padding:0;
-            list-style-type: none;
-        }
-        ul li img {
-            display: block;
-            height: 100px;
-            position: relative;
+        #imageBlock {
+            width: 300px;
+            height: 419px;
         }
     </style>
 </head>
 <body>
+<div class="container" id="container">
+    <!--导航-->
+    <nav class="navbar navbar-default" role="navigation">
+        <ul class="nav navbar-nav">
+            <li><a href="#"><strong>我的豆瓣</strong></a></li>
+            <li><a href="#">正在热映</a></li>
+            <li><a href="#">即将上映</a></li>
+            <li><a href="#">TOP250</a></li>
+        </ul>
+    </nav>
+    <!--缩略图-->
+    <div class="row">
 
-<div id="container">
-
+    </div>
 </div>
 
 
-<script src="resource/jquery-1.11.1.js"></script>
-<script type="text/javascript">
 
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
     $.ajax({
         type: "GET",
         async: 'false',
@@ -50,17 +51,22 @@
     });
 
     function showData(item) {
-       var str = '' ;
-        str += '<ul>';
-        str += '<h2>'+item.title+'</h2>';
-        str += '<li><img src="'+item.post+'" alt=""></li>';
-        str += '<li>'+item.rate+'</li>';
-        str += '<li><a href="'+item.link+'">去豆瓣查看</a></li>';
-        str += '</ul>';
+        var str = '';
+        str += '<div class="col-sm-6 col-md-3">';
+            str += '<div class="thumbnail">';
+                str += '<img id="imageBlock" src="'+item.post+'" alt="...">';
+                str += '<div class="caption">';
+                    str += '<h3>'+item.title+'<span class="badge pull-left">'+item.rate+'</span></h3>';
+                    str += '<p><a href="'+item.link+'" class="btn btn-primary" role="button">去豆瓣看看</a></p>';
+                str += '</div>';
+            str += '</div>';
+        str += '</div>';
 
-        $("#container").append(str);
+        $(".row").append(str);
     }
-    
+
+
+
 </script>
 </body>
 </html>
