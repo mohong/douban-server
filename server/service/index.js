@@ -14,7 +14,6 @@ const sever = http.createServer((req,res)=>{
     let reqPath = url.parse(req.url,true).pathname;
     //处理跨域
     let callback = url.parse(req.url,true).query.callback;
-    console.log(callback);
     switch (reqPath){
         case '/getmoviebyid':
             moviedao.getMovieById(280,function (data) {
@@ -24,6 +23,18 @@ const sever = http.createServer((req,res)=>{
             break;
         case '/nowplaying':
             moviedao.getMovieByStatus('nowplaying',function (data) {
+                res.writeHead(200,{'content-Type':'text/html',});
+                res.end(callback + '(' + JSON.stringify(data) + ')' );
+            });
+            break;
+        case '/showingsoon':
+            moviedao.getMovieByStatus('showingsoon',function (data) {
+                res.writeHead(200,{'content-Type':'text/html',});
+                res.end(callback + '(' + JSON.stringify(data) + ')' );
+            });
+            break;
+        case '/top250':
+            moviedao.getMovieByStatus('top250',function (data) {
                 res.writeHead(200,{'content-Type':'text/html',});
                 res.end(callback + '(' + JSON.stringify(data) + ')' );
             });

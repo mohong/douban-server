@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页</title>
+    <title>即将上映</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <style>
         #imageBlock {
@@ -36,7 +36,7 @@
     $.ajax({
         type: "GET",
         async: 'false',
-        url: "http://127.0.0.1:8888/nowplaying",
+        url: "http://127.0.0.1:8888/showingsoon",
         dataType: "jsonp",
         jsonpCallback:"nowplaying",
         success: function(data){
@@ -53,13 +53,13 @@
     function showData(item) {
         var str = '';
         str += '<div class="col-sm-6 col-md-3">';
-            str += '<div class="thumbnail">';
-                str += '<img id="imageBlock" src="'+item.post+'" alt="...">';
-                str += '<div class="caption">';
-                    str += '<h3>'+item.title+'<span class="badge pull-left">'+item.rate+'</span></h3>';
-                    str += '<p><a href="'+item.link+'" class="btn btn-primary" role="button">去豆瓣看看</a></p>';
-                str += '</div>';
-            str += '</div>';
+        str += '<div class="thumbnail">';
+        str += '<img id="imageBlock" src="'+item.post+'" alt="...">';
+        str += '<div class="caption">';
+        str += '<h3>'+item.title+'</h3>';
+        str += '<p><a href="'+item.link+'" class="btn btn-success" role="button">去豆瓣看看</a></p>';
+        str += '</div>';
+        str += '</div>';
         str += '</div>';
 
         $(".row").append(str);

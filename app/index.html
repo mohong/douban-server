@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豆瓣</title>
+    <style>
+        .view {
+            width:300px;
+            height:200px;
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body ng-app=>
+
+<h1>douban</h1>
+
+
+<div class="view" ng-view   ></div>
+
+
+<script src="resource/angular.min.js"></script>
+<script src="resource/angular-route.min.js"></script>
+
+<script src="components/http.js"></script>
+<script src="movie_list/controller.js"></script>
+</body>
+</html>
