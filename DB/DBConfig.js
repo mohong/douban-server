@@ -7,9 +7,9 @@
 
 module.exports = {
     mysql: {
-        host: '123.206.64.75',
-        user: 'zhang',
-        passworld: 'zhang',
+        host: '127.0.0.1',
+        user: 'root',
+        passworld: '',
         database: 'douban',
         port: 3306
     }
