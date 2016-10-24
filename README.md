@@ -39,7 +39,7 @@
 - `status`：电影状态，有两个值
  	- `nowplaying` 正在上映
  	- `later` 即将上映
- 	- 'top250' TOP250排行
+ 	- `top250` TOP250排行
  	
  	
 ## 开发方式
