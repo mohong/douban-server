@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影评分统计</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+
+<div class="container">
+    <div id="main" style="width: 1200px;height:400px;"></div>
+</div>
+
+
+<script src="js/jquery-2.1.4.min.js"></script>
+<script src="//cdn.bootcss.com/echarts/3.2.3/echarts.js"></script>
+<script type="text/javascript">
+
+
+    $.ajax({
+        type: "GET",
+        async: 'false',
+        url: "http://127.0.0.1:8888/nowplaying",
+        dataType: "jsonp",
+        jsonpCallback:"nowplaying",
+        success: function(data){
+            var dataRate = []; //评分
+            var dataTitle = []; //电影名称
+            for (var key in data){
+                var item = data[key];
+
+                dataRate.push(item.rate);
+                dataTitle.push(item.title.trim());
+
+            }
+
+            console.log(dataRate);
+            console.log(dataTitle);
+            showData(dataRate,dataTitle);
+
+        },
+        error: function (error) {
+            console.log('请求失败');
+        }
+    });
+
+
+
+
+
+    // 指定图表的配置项和数据
+    function showData(dataRate,dataTitle) {
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = {
+            title: {
+                text: '最近上映电影评分统计'
+            },
+            tooltip: {},
+            legend: {
+                data:['评分']
+            },
+            xAxis: {
+                axisLabel:{
+                    interval:0,
+                    rotate:45,
+                    margin:2,
+                    textStyle:{
+                        color:"#222"
+                    }
+                },
+                data: dataTitle
+            },
+            yAxis: {},
+            series: [{
+                name: '评分',
+                type: 'bar',
+                //data: [5, 20, 36, 10, 10, 20]
+                data: dataRate
+            }],
+            grid: { // 控制图的大小，调整下面这些值就可以，
+                x: 40,
+                x2: 100,
+                y2: 50,// y2可以控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+            }
+
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    }
+
+
+</script>
+</body>
+</html>

@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.1.2",
     "cheerio": "^0.22.0",
+    "echarts": "^3.2.3",
     "mysql": "^2.11.1",
     "request": "^2.75.0",
     "underscore": "^1.8.3"
