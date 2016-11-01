@@ -18,7 +18,7 @@ module.exports = {
                     if (error){
                         throw error;
                     } else {
-                        console.log('添加成功');
+                        console.log('数据已经保存到数据库~');
                     }
                     connection.release();
                 })
