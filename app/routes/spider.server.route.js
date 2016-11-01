@@ -4,10 +4,19 @@
  */
 
 var SpiderController = require('../controller/spider.server.controller');
+var ParseLinkController = require('../controller/parselink.server.controller');
 
 module.exports = function (app) {
     app.get('/spider_detail', function(req, res){
-        SpiderController.getDetail('https://movie.douban.com/subject/26433966/');
+        SpiderController.getDetail('https://movie.douban.com/subject/24751756/');
         res.send('爬取电影详情页的爬虫已经启动……');
     });
+
+    app.get('/spider_id',function (req,res) {
+        var urls = ParseLinkController.getUrlByYear(2015);
+        for(var i=0; i<urls.length; i++){
+            SpiderController.getId(urls[i])
+        }
+        res.send('正在通过年份标签获取电影地址');
+    })
 };

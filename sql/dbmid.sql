@@ -18,8 +18,8 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for douban_movie_id
 -- ----------------------------
-DROP TABLE IF EXISTS `douban_movie_id`;
-CREATE TABLE `douban_movie_id` (
+DROP TABLE IF EXISTS `dbmid`;
+CREATE TABLE `dbmid` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `douban_movie_id` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
