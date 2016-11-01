@@ -7,7 +7,7 @@ var SpiderController = require('../controller/spider.server.controller');
 
 module.exports = function (app) {
     app.get('/spider_detail', function(req, res){
-        SpiderController('https://movie.douban.com/subject/26433966/');
+        SpiderController.getDetail('https://movie.douban.com/subject/26433966/');
         res.send('爬取电影详情页的爬虫已经启动……');
     });
 };
