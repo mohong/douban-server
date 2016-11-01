@@ -7,14 +7,14 @@ var pool = require('../../config/mysql');
 var SQL = require('../util/SQL');
 
 module.exports = {
-    add: (post,title,rate,link,status) => {
+    add: (douban_movie_id,title,director,writer,actors,type,country,language,released,duration,rate,star,link) => {
         //从连接池中获取连接
         pool.getConnection((error,connection) => {
             if (error){
                 throw error;
             } else {
                 //建立连接，增加一个用户
-                connection.query(SQL.insert,[post,title,rate,link,status],(error) => {
+                connection.query(SQL.insert,[douban_movie_id,title,director,writer,actors,type,country,language,released,duration,rate,star,link],(error) => {
                     if (error){
                         throw error;
                     } else {
