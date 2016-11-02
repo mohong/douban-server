@@ -32,20 +32,25 @@ module.exports = {
         //目的是得到一个年份有多少页(pagesize)
         request(getpagesizeurl, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
-                for(var i=0; i<taglink.pagesize; i+=20){   //2780
-                    var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i+'&type=T';
-                    //目的是通过每页的url得到当前页的电影详情url
-                    request(baseUrl, function (error, response, body) {
-                        if (!error && response.statusCode == 200) {
-                            var links = parseLink(body);
-                            for(key in links.url){
-                                var link = links.url[key];
-                                console.log(baseUrl,link);
-                                ParseLinkController.add(link);
+                var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
+                for(var i=0; i<taglink.pagesize; i++){   //taglink.pagesize
+                    (function (year,i) {
+                        var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
+                        //目的是通过每页的url得到当前页的电影详情url
+                        request(baseUrl, function (error, response, body) {
+                            if (!error && response.statusCode == 200) {
+                                var links = parseLink(body);
+                                for(var key in links.url){
+                                    (function (key) {
+                                        var link = links.url[key];
+                                        console.log(link);
+                                        //console.log(baseUrl,link);
+                                        ParseLinkController.add(link);
+                                    })(key);
+                                }
                             }
-                        }
-                    });
+                        });
+                    })(year,i);
                 }
             }
         });
