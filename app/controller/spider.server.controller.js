@@ -28,24 +28,23 @@ module.exports = {
      * 第一次是为了得到每个标签有多少页，
      * 第二次是为了得到每页的20个条目对应的详情url
      */
-    getUrlByYear: function (tag) {
-        var entag = encodeURI(tag);
-        var getpagesizeurl = 'https://movie.douban.com/tag/'+entag;
+    getUrlByYear: function (year) {
+
+        var getpagesizeurl = 'https://movie.douban.com/tag/'+year;
 
         //目的是得到一个年份有多少页(pagesize)
         var optionsGetPageSize = {
             url: getpagesizeurl,
             headers: {
-                method: 'GET',
-                'User-Agent': userAgentS.safari_51_Windows,
+                'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',
                 'Connection':'keep-alive'
             }
         };
 
         request(optionsGetPageSize, function (error, response, body) {
-            console.log(body);
             if (!error && response.statusCode == 200) {
                 var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
+                //console.log(body);
                 for(var i=0; i<taglink.pagesize; i++){   //taglink.pagesize
                     (function (year,i) {
                         var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
@@ -54,8 +53,7 @@ module.exports = {
                         var optionsGetLink = {
                             url:baseUrl,
                             headers: {
-                                method: 'GET',
-                                'User-Agent': userAgentS.IE9,
+                                'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',
                                 'Connection':'keep-alive'
                             }
                         }
@@ -67,7 +65,6 @@ module.exports = {
                                     (function (key) {
                                         var link = links.url[key];
                                         console.log(link);
-                                        //console.log(baseUrl,link);
                                         ParseLinkController.add(link);
                                     })(key);
                                 }
