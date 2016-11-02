@@ -36,11 +36,11 @@ module.exports = {
         var optionsGetPageSize = {
             url: getpagesizeurl,
             headers: {
-                'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
                 'Connection':'keep-alive'
             }
         };
-
+        console.log(optionsGetPageSize);
         request(optionsGetPageSize, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
@@ -49,16 +49,15 @@ module.exports = {
                     (function (year,i) {
                         var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
                         //目的是通过每页的url得到当前页的电影详情url
-
-                        var optionsGetLink = {
-                            url:baseUrl,
+                        var optionsGetURL = {
+                            url: baseUrl,
                             headers: {
-                                'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
                                 'Connection':'keep-alive'
                             }
-                        }
-
-                        request(optionsGetLink, function (error, response, body) {
+                        };
+                        console.log(optionsGetURL);
+                        request(optionsGetURL, function (error, response, body) {
                             if (!error && response.statusCode == 200) {
                                 var links = parseLink(body);
                                 for(var key in links.url){
