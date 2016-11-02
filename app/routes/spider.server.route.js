@@ -12,7 +12,7 @@ module.exports = function (app) {
     });
 
     app.get('/spider_link',function (req,res) {
-        SpiderController.getUrlByYear(1988);
+        SpiderController.getUrlByYear('爱情');
         res.send('正在通过年份标签获取电影地址');
     })
 };

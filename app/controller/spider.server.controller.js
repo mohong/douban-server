@@ -7,6 +7,7 @@ var model = require('../models/movie.server.models');
 var MovieController = require('./movie.server.controller');
 var parseLink = require('../models/parselink.server.model');
 var ParseLinkController = require('./parselink.server.controller');
+var userAgentS = require('../../config/userAgent');
 
 module.exports = {
     /*
@@ -27,17 +28,39 @@ module.exports = {
      * 第一次是为了得到每个标签有多少页，
      * 第二次是为了得到每页的20个条目对应的详情url
      */
-    getUrlByYear: function (year) {
-        var getpagesizeurl = 'https://movie.douban.com/tag/'+year;
+    getUrlByYear: function (tag) {
+        var entag = encodeURI(tag);
+        var getpagesizeurl = 'https://movie.douban.com/tag/'+entag;
+
         //目的是得到一个年份有多少页(pagesize)
-        request(getpagesizeurl, function (error, response, body) {
+        var optionsGetPageSize = {
+            url: getpagesizeurl,
+            headers: {
+                method: 'GET',
+                'User-Agent': userAgentS.safari_51_Windows,
+                'Connection':'keep-alive'
+            }
+        };
+
+        request(optionsGetPageSize, function (error, response, body) {
+            console.log(body);
             if (!error && response.statusCode == 200) {
                 var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
                 for(var i=0; i<taglink.pagesize; i++){   //taglink.pagesize
                     (function (year,i) {
                         var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
                         //目的是通过每页的url得到当前页的电影详情url
-                        request(baseUrl, function (error, response, body) {
+
+                        var optionsGetLink = {
+                            url:baseUrl,
+                            headers: {
+                                method: 'GET',
+                                'User-Agent': userAgentS.IE9,
+                                'Connection':'keep-alive'
+                            }
+                        }
+
+                        request(optionsGetLink, function (error, response, body) {
                             if (!error && response.statusCode == 200) {
                                 var links = parseLink(body);
                                 for(var key in links.url){
