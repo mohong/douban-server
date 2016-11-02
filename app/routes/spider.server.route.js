@@ -4,8 +4,6 @@
  */
 
 var SpiderController = require('../controller/spider.server.controller');
-var ParseLinkController = require('../controller/parselink.server.controller');
-var async = require('async');
 
 module.exports = function (app) {
     app.get('/spider_detail', function(req, res){
@@ -13,13 +11,8 @@ module.exports = function (app) {
         res.send('爬取电影详情页的爬虫已经启动……');
     });
 
-    app.get('/spider_id',function (req,res) {
-        var urls = ParseLinkController.getUrlByYear(1988);
-        for(var i=0; i<urls.length; i++){
-            async.forEach(
-                SpiderController.getId(urls[i])
-            );
-        }
+    app.get('/spider_link',function (req,res) {
+        SpiderController.getUrlByYear(2015);
         res.send('正在通过年份标签获取电影地址');
     })
 };

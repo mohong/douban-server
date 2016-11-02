@@ -22,15 +22,30 @@ module.exports = {
     },
 
     /*
-     *通过url获得电影链接
+     * 传给一个年份，得到本年度的所有电影的url，存入数据库
+     * parselink.server.model用了两次，
+     * 第一次是为了得到每个标签有多少页，
+     * 第二次是为了得到每页的20个条目对应的详情url
      */
-    getId: function (url) {
-        request(url, function (error, response, body) {
+    getUrlByYear: function (year) {
+        var getpagesizeurl = 'https://movie.douban.com/tag/'+year;
+        //目的是得到一个年份有多少页(pagesize)
+        request(getpagesizeurl, function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                var links = parseLink(body);
-                for(key in links){
-                    var link = links[key];
-                    ParseLinkController.add(link);
+                taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
+                for(var i=0; i<taglink.pagesize; i+=20){   //2780
+                    var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i+'&type=T';
+                    //目的是通过每页的url得到当前页的电影详情url
+                    request(baseUrl, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            var links = parseLink(body);
+                            for(key in links.url){
+                                var link = links.url[key];
+                                console.log(baseUrl,link);
+                                ParseLinkController.add(link);
+                            }
+                        }
+                    });
                 }
             }
         });

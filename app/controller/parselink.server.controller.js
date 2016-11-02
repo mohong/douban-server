@@ -5,6 +5,7 @@
 
 var pool = require('../../config/mysql');
 var SQL = require('../util/SQL');
+var request = require('request');
 
 module.exports = {
     add: (link) => {
@@ -26,12 +27,4 @@ module.exports = {
         })
     },
 
-    getUrlByYear: function (year) {
-        var urls = [];
-        for(var i=0; i<200; i+=20){   //2780
-            var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i+'&type=T';
-            urls.push(baseUrl);
-        }
-        return urls;
-    }
 };
