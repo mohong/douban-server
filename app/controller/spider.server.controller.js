@@ -47,6 +47,7 @@ module.exports = {
                 var timer1 = setInterval((function (year,i,taglink){
                     var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
                     i ++;
+                    console.log('共'+taglink.pagesize+'页','正在第'+i+'页');
                     if (i>taglink.pagesize){
                         clearInterval(timer1);
                     }
