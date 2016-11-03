@@ -40,37 +40,38 @@ module.exports = {
                 'Connection':'keep-alive'
             }
         };
-        console.log(optionsGetPageSize);
         request(optionsGetPageSize, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
-                //console.log(body);
-                for(var i=0; i<taglink.pagesize; i++){   //taglink.pagesize
-                    (function (year,i) {
-                        var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
-                        //目的是通过每页的url得到当前页的电影详情url
-                        var optionsGetURL = {
-                            url: baseUrl,
-                            headers: {
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
-                                'Connection':'keep-alive'
+                var i = 0;
+                var timer1 = setInterval((function (year,i,taglink){
+                    var baseUrl = 'https://movie.douban.com/tag/' + year + '?start='+i*20+'&type=T';
+                    i ++;
+                    if (i>taglink.pagesize){
+                        clearInterval(timer1);
+                    }
+                    //目的是通过每页的url得到当前页的电影详情url
+                    var optionsGetURL = {
+                        url: baseUrl,
+                        headers: {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
+                            'Connection':'keep-alive'
+                        }
+                    };
+                    console.log(optionsGetURL);
+                    request(optionsGetURL, function (error, response, body) {
+                        if (!error && response.statusCode == 200) {
+                            var links = parseLink(body);
+                            for(var key in links.url){
+                                (function (key) {
+                                    var link = links.url[key];
+                                    console.log(link);
+                                    ParseLinkController.add(link);
+                                })(key);
                             }
-                        };
-                        console.log(optionsGetURL);
-                        request(optionsGetURL, function (error, response, body) {
-                            if (!error && response.statusCode == 200) {
-                                var links = parseLink(body);
-                                for(var key in links.url){
-                                    (function (key) {
-                                        var link = links.url[key];
-                                        console.log(link);
-                                        ParseLinkController.add(link);
-                                    })(key);
-                                }
-                            }
-                        });
-                    })(year,i);
-                }
+                        }
+                    });
+                })(year,i,taglink),1000);
             }
         });
     }
