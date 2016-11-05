@@ -42,9 +42,9 @@ module.exports = {
         var timer = setInterval(function () {
             options.url = 'https://movie.douban.com/tag/'+tag+'?start='+ num * 20 + '&type=T';
             getCurUrl(options).then(saveUrl);
+            console.log('总页数：'+total+'，当前是第'+num+'页');
             num ++;
-            console.log('总页数：'+total);
-            if (num == 5){
+            if (num == total){
                 clearInterval(timer);
             }
         },2000);
@@ -77,13 +77,11 @@ module.exports = {
 
         //保存url至数据库
         function saveUrl(urls) {
-            for (var i=0; i<urls.length; i++){
-                //ParseLinkController.add(url);
-                console.log(urls);
-                if (i=urls.length-1){
-                    console.log('已经保存到数据库中！');
-                }
+            for (var item in urls){
+                ParseLinkController.add(url);
+                //console.log(urls[item]);
             }
+            console.log('数据已经保存到到数据库中');
         }
     }
 };
