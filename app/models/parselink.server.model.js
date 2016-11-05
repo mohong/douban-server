@@ -17,5 +17,6 @@ module.exports = function (body) {
         var link = $('a.nbg',table).attr('href');
         links.push(link);
     }
+
     return {'url':links,'pagesize':pagesize};
 };

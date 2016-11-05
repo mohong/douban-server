@@ -23,25 +23,73 @@ module.exports = {
     },
 
     /*
-     * 传给一个年份，得到本年度的所有电影的url，存入数据库
      * parselink.server.model用了两次，
      * 第一次是为了得到每个标签有多少页，
      * 第二次是为了得到每页的20个条目对应的详情url
      */
-    getUrlByYear: function (year) {
-
-        var getpagesizeurl = 'https://movie.douban.com/tag/'+year;
-
-        //目的是得到一个年份有多少页(pagesize)
-        var optionsGetPageSize = {
-            url: getpagesizeurl,
+    getUrlByTag: function (tag) {
+        var options = {
+            url: 'https://movie.douban.com/tag/'+tag+'?start=20&type=T',
             headers: {
                 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; 360SE)',
                 'Connection':'keep-alive'
             }
         };
+       
+        //获取总页数
+        // function getPagesize(options) {
+        //     return new Promise(function (resolve,reject) {
+        //         request(options,function (error,response,body) {
+        //             if (!error && response.statusCode == 200){
+        //                 resolve(parseLink(body).pagesize);
+        //             }
+        //         })
+        //     })
+        // }
+        //
+        // getPagesize(options).then(function (value) {
+        //     console.log('from controller'+value);
+        // });
 
-        request(optionsGetPageSize, function (error, response, body) {
+        //获取当前页的所有url(20个)
+        function getCurUrl(options) {
+            return new Promise(function (resolve,reject) {
+                request(options,function (error,response,body) {
+                    if (!error && response.statusCode == 200){
+                        console.log('成功请求到数据');
+                        resolve(parseLink(body).url);
+                    }
+                })
+            })
+        }
+
+        //保存url至数据库
+        function saveUrl(urls) {
+            for (var i=0; i<urls.length; i++){
+                //ParseLinkController.add(url);
+                if (i=urls.length-1){
+                    console.log('已经保存到数据库中！');
+                }
+            }
+        }
+
+        var num = 0;
+        console.log('即将向豆瓣发起请求');
+        var delay = parseInt((Math.random() * 10000000) % 2000, 10);
+        var timer = setInterval(function () {
+            options.url = 'https://movie.douban.com/tag/'+tag+'?start='+ num * 20 + '&type=T';
+            getCurUrl(options).then(saveUrl);
+            console.log('正在抓取'+options.url+',耗时'+delay+'毫秒');
+            num ++;
+            console.log(parseLink.pagesize);
+            if (num == 5){
+                clearInterval(timer);
+            }
+        },delay);
+
+
+        /*
+        request(options, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var taglink = parseLink(body); //taglink = {'url':url,'pagesize':pagesize}
                 //console.log(body);
@@ -74,5 +122,6 @@ module.exports = {
                 }
             }
         });
+        */
     }
 };
