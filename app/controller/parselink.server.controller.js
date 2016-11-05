@@ -18,8 +18,6 @@ module.exports = {
                 connection.query(SQL.dbmidSQL.insert,[link],(error) => {
                     if (error){
                         throw error;
-                    } else {
-                        console.log('条数据已经保存到数据库~');
                     }
                     connection.release();
                 })

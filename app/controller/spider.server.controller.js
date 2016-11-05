@@ -22,11 +22,6 @@ module.exports = {
         });
     },
 
-    /*
-     * parselink.server.model用了两次，
-     * 第一次是为了得到每个标签有多少页，
-     * 第二次是为了得到每页的20个条目对应的详情url
-     */
     getUrlByTag: function (tag) {
         var total = 0;
         var options = {
@@ -78,8 +73,8 @@ module.exports = {
         //保存url至数据库
         function saveUrl(urls) {
             for (var item in urls){
-                ParseLinkController.add(url);
-                //console.log(urls[item]);
+                //ParseLinkController.add(urls[item]);
+                console.log(urls[item]);
             }
             console.log('数据已经保存到到数据库中');
         }
