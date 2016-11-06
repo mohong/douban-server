@@ -39,9 +39,9 @@ module.exports = {
             getCurUrl(options).then(saveUrl);
             console.log('当前标签是：'+decodeURI(tag)+',总页数：'+total+'，当前是第'+num+'页');
             num ++;
-            if (num == total+1){
-                console.log(decodeURI(tag)+'标签爬取完成');
+            if (num == total){
                 clearInterval(timer);
+                console.log(decodeURI(tag)+'标签爬取完成');
             }
         },3000);
        
