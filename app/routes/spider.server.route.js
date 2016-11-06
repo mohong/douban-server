@@ -20,8 +20,25 @@ module.exports = function (app) {
     })
 
     app.get('/getlinkbyid',function (req,res) {
-        ParselinkController.getLinkById(34393,function () {
-            
-        })
+
+        var i = 7407;
+        var timer = setInterval(function () {
+            ParselinkController.getLinkById(i,Print);
+            if (i == 7413){
+                clearInterval(timer);
+            }
+        },3000);
+
+        function Print(value) {
+           if ('' == value.toString()){
+               console.log('此处为空,id为：'+i);
+               i++;
+           }else {
+               console.log(value);
+               SpiderController.getDetail(value[0].detaillink);
+               i++;
+           }
+        }
+
     })
 };
