@@ -4,6 +4,8 @@
  */
 
 var SpiderController = require('../controller/spider.server.controller');
+var ParselinkController = require('../controller/parselink.server.controller')
+var async = require('async');
 
 module.exports = function (app) {
     app.get('/spider_detail', function(req, res){
@@ -15,5 +17,11 @@ module.exports = function (app) {
         var tag = encodeURI('喜剧');
         SpiderController.getUrlByTag(tag);
         res.send('正在通过年份标签获取电影地址');
+    })
+
+    app.get('/getlinkbyid',function (req,res) {
+        ParselinkController.getLinkById(34393,function () {
+            
+        })
     })
 };

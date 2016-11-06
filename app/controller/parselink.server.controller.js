@@ -25,4 +25,22 @@ module.exports = {
         })
     },
 
+    getLinkById: (id,callback) => {
+        pool.getConnection((error,connection) => {
+            if (error) {
+                throw error;
+            } else {
+                connection.query(SQL.dbmidSQL.getLinkById,[id],(error,result)=>{
+                    if (error){
+                        throw error;
+                    } else {
+                        callback(result);
+                    }
+
+                })
+                connection.release();
+            }
+        })
+    }
+
 };

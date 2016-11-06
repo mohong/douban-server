@@ -14,7 +14,8 @@ var SQL = {
     },
     //dbmid表
     dbmidSQL: {
-        insert: 'INSERT INTO detaillink(detaillink) VALUES(?)'
+        insert: 'INSERT INTO detaillink(detaillink) VALUES(?)',
+        getLinkById: 'select detaillink from detaillink where id=?'
     }
 };
 
