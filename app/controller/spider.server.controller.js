@@ -40,6 +40,7 @@ module.exports = {
             console.log('总页数：'+total+'，当前是第'+num+'页');
             num ++;
             if (num == total){
+                console.log(tag+ '标签爬取完成');
                 clearInterval(timer);
             }
         },3000);
