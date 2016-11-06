@@ -14,8 +14,12 @@ module.exports = function (app) {
     });
 
     app.get('/spider_link',function (req,res) {
-        var tag = encodeURI('喜剧');
-        SpiderController.getUrlByTag(tag);
+        var tags = ['科幻','动作','经典','悬疑','青春','犯罪','惊悚','文艺'];
+        for (var key in tags){
+            var tag = tags[key];
+            var tag = encodeURI('动画');
+            SpiderController.getUrlByTag(tag);
+        }
         res.send('正在通过年份标签获取电影地址');
     })
 

@@ -37,10 +37,10 @@ module.exports = {
         var timer = setInterval(function () {
             options.url = 'https://movie.douban.com/tag/'+tag+'?start='+ num * 20 + '&type=T';
             getCurUrl(options).then(saveUrl);
-            console.log('总页数：'+total+'，当前是第'+num+'页');
+            console.log('当前标签是：'+decodeURI(tag)+'，总页数：'+total+'，当前是第'+num+'页');
             num ++;
             if (num == total){
-                console.log(tag+ '标签爬取完成');
+                console.log(+ '标签爬取完成');
                 clearInterval(timer);
             }
         },3000);
