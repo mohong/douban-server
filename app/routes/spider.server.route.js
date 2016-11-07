@@ -24,7 +24,7 @@ module.exports = function (app) {
         var i = 7407;
         var timer = setInterval(function () {
             ParselinkController.getLinkById(i,Print);
-            if (i == 7420){
+            if (i == 127914){
                 clearInterval(timer);
             }
         },3000);
@@ -34,7 +34,7 @@ module.exports = function (app) {
                console.log('此处为空,id为：'+i);
                i++;
            }else {
-               console.log('正在抓取的地址：'+value+'id:'+i);
+               console.log('正在抓取的id:'+i);
                SpiderController.getDetail(value[0].detaillink);
                i++;
            }
