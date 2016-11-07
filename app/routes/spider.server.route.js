@@ -34,7 +34,7 @@ module.exports = function (app) {
                console.log('此处为空,id为：'+i);
                i++;
            }else {
-               console.log(value);
+               console.log('正在抓取的地址：'+value+'id:'+i);
                SpiderController.getDetail(value[0].detaillink);
                i++;
            }

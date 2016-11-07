@@ -7,7 +7,7 @@
 var SQL = {
     //movie表
     movieSQL: {
-        insert: 'INSERT INTO movie(douban_movie_id,title,director,writer,actors,type,country,language,released,duration,rate,star,link) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        insert: 'INSERT INTO movie(douban_id,title,director,writer,actors,type,country,language,released,duration,rate,star,link,post,classify) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         queryAll: 'SELECT * FROM movie',
         getMovieById: 'SELECT * FROM movie WHERE id=?',
         getMovieByStatus: 'SELECT * FROM movie WHERE status=?'
