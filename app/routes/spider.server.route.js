@@ -17,14 +17,14 @@ module.exports = function (app) {
         var tag = encodeURI('烂片');
         SpiderController.getUrlByTag(tag);
         res.send('正在通过年份标签获取电影地址');
-    })
+    });
 
     app.get('/getlinkbyid',function (req,res) {
 
         var i = 7407;
         var timer = setInterval(function () {
             ParselinkController.getLinkById(i,Print);
-            if (i == 7413){
+            if (i == 7420){
                 clearInterval(timer);
             }
         },3000);

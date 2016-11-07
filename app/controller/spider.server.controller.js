@@ -17,7 +17,7 @@ module.exports = {
         request(url, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 var data = model(body);
-                MovieController.add(data.douban_movie_id,data.title,data.director,data.writer,data.actors,data.type,data.country,data.language,data.released,data.duration,data.rate,data.star,data.link);
+                //MovieController.add(data.douban_movie_id,data.title,data.director,data.writer,data.actors,data.type,data.country,data.language,data.released,data.duration,data.rate,data.star,data.link);
             }
         });
     },

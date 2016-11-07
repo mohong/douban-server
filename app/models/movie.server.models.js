@@ -17,36 +17,46 @@ module.exports = function (body) {
     var actors = $('span.attrs',spans).eq(2).text();  //编剧
     var types = $('span[property="v:genre"]',spans);
 
-    var type = [] ;                                  //类型
+    var classify = [] ;                                  //分类： 喜剧、动作
     for(var i=0; i<types.length; i++){
-        type.push($('span[property="v:genre"]',spans).eq(i).text());
+        classify.push($('span[property="v:genre"]',spans).eq(i).text());
     }
-    type = type.toString();
+    classify = classify.toString();
 
-    //var country = $('span[class="pl"]',spans).eq(4).text();   //制片国家/地区 null
-                                                                //语言 null
+    var country = $('#info span.pl')[4].next.data;   //制片国家/地区
+
+    var language = $('#info span.pl')[5].next.data;    //语言
+
 
     var released = $('span[property="v:initialReleaseDate"]',spans).eq(0).text(); //上映日期
     var duration = $('span[property="v:runtime"]',spans).text(); //片长
-                                                                 //又名 null
     var interest_sectl = $('#interest_sectl');
     var rate = $('strong[property="v:average"]',interest_sectl).text();  //平均评分
-                                                                        //星级指数
-                                                                        //豆瓣链接null
+
+    var starClass = $('#interest_sectl div.rating_right').children()[0].attribs.class;
+    var stars = starClass.substr(10,2);                         //星级指数
+    var type = $('div span.rec a')[0].attribs['data-type'];            // 类型： 电视剧、电影
+    var link = $('div span.rec a')[0].attribs['data-url'];         //豆瓣链接
+
+    var post = $('#mainpic a img')[0].attribs.src;
+
+    var douban_id = link.slice(link.indexOf('/')+27,link.lastIndexOf('/'));
 
     return  {
-        'douban_movie_id': douban_movie_id, //豆瓣的电影id
+        'douban_id': douban_id, //豆瓣的电影id
         'title': title,      //电影名称
         'director': director,   //导演
         'writer': writer,     //编剧
         'actors': actors,     //主演
-        'type': type,       //类型
-        'country': 'null',    //制片国家/地区
-        'language': 'null',   //语言
+        'type': type,       //类型  电影、电视剧
+        'country': country,    //制片国家/地区
+        'language': language,   //语言
         'released': released,   //上映日期
         'duration': duration,   //片长
-        'rate': rate,       //平均评分
-        'star': 'null',       //星级指数
-        'link': 'null'        //豆瓣链接
+        'rate': rate,         //平均评分
+        'star': stars,       //星级指数
+        'link': link,        //豆瓣链接
+        'post': post,         //海报
+        'classify': classify   //分类，喜剧、爱情
     }
 };
