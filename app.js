@@ -28,6 +28,9 @@ app.get("/analyze",function(req,res){
 app.get("/regional",function(req,res){
     res.render("regional",{});
 });
+app.get("/dbreport",function(req,res){
+    res.render("dbreport",{});
+});
 
 
 console.log('sever start , url: http://localhost:3000');
