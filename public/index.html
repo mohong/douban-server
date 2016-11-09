@@ -4,8 +4,71 @@
     <meta charset="UTF-8">
     <title>首页</title>
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <style>
+        @media (min-width: 768px) {
+            #slider_sub{
+                width:210px;
+                margin-top: 51px;
+                position: absolute;
+                z-index: 1;
+            }
+            .mysearch{
+                margin: 10px 10px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#list">
+                <span class="sr-only">toggle</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">数据说电影</a>
+        </div>
+        <div class="collapse navbar-collapse" id="list">
+            <ul class="nav navbar-nav navbar-right" style="margin-right: 20px">
+                <li><a href="#"><span class="glyphicon glyphicon-off"></span>&nbsp;注销</a></li>
+            </ul>
+            <!--侧边栏-->
+            <div class="navbar-default navbar-collapse" style="margin-top: 51px" id="slider_sub">
+                <ul class="nav">
+                    <li>
+                        <div class="input-group mysearch">
+                            <input type="text" class="form-control">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#douban" data-toggle="collapse">豆瓣电影</a>
+                        <ul id="douban" class="nav nav-collapse">
+                            <li><a href="#">即将上映</a></li>
+                            <li><a href="#">正在热播</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#analyze" data-toggle="collapse">数据分析</a>
+                        <ul id="analyze" class="nav nav-collapse">
+                            <li><a href="#">报表统计</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#spider" data-toggle="collapse">爬虫管理</a>
+                        <ul id="spider" class="nav nav-collapse">
+                            <li><a href="#">爬虫管理</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 
 
