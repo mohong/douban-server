@@ -9,6 +9,7 @@ var express = require('express');
 var app = express();
 
 require('./app/routes/spider.server.route')(app);
+require('./app/routes/ratemax.server.route')(app);
 
 app.listen(3000);
 

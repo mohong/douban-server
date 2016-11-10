@@ -7,7 +7,6 @@ var model = require('../models/movie.server.models');
 var MovieController = require('./movie.server.controller');
 var parseLink = require('../models/parselink.server.model');
 var ParseLinkController = require('./parselink.server.controller');
-var userAgentS = require('../../config/userAgent');
 
 module.exports = {
     /*

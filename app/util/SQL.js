@@ -16,6 +16,10 @@ var SQL = {
     dbmidSQL: {
         insert: 'INSERT INTO detaillink(detaillink) VALUES(?)',
         getLinkById: 'select detaillink from detaillink where id=?'
+    },
+    //ratemax表
+    ratemaxSQL: {
+        queryAll: 'SELECT rate,title,director FROM ratemax'
     }
 };
 
