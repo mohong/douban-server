@@ -10,6 +10,7 @@ var app = express();
 
 require('./app/routes/spider.server.route')(app);
 require('./app/routes/ratemax.server.route')(app);
+require('./app/routes/starmax.server.route')(app);
 
 app.listen(3000);
 
@@ -22,7 +23,7 @@ app.set("view cache",false);
 //设置模板引擎的格式即运用何种模板引擎
 app.set("view engine","ejs");
 
-//设置路由
+//设置页面跳转路由
 app.get("/analyze",function(req,res){
     res.render("analyze",{});
 });

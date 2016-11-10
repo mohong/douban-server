@@ -20,6 +20,10 @@ var SQL = {
     //ratemax表
     ratemaxSQL: {
         queryAll: 'SELECT rate,title,director FROM ratemax'
+    },
+    //starmax表
+    starmaxSQL: {
+        queryAll: 'SELECT rate,title,director FROM starmax'
     }
 };
 
