@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="//cdn.bootcss.com/echarts/3.3.1/echarts.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+    <script src="js/wow.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" class="navbar-brand">Hi,admin</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="">后台首页</a></li>
+                <li><a href="">豆瓣用户</a></li>
+                <li><a href="">数据库</a></li>
+                <li><a href="">内容管理</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row wow fadeInUp">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">2015年最喜爱的电影类型</div>
+                <div class="panel-body">
+                    <div id="typemax" style="width: 100%;height: 240px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    主要制片国家统计
+                </div>
+                <div class="panel-body">
+                    <div id="maincounty" style="width: 100%;height: 240px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    2015年度演出最多的演员排行
+                </div>
+                <div class="panel-body">
+                    <div id="actormax" style="width: 100%;height: 240px"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    过去七年美国每年产出的电影
+                </div>
+                <div class="panel-body">
+                    <div id="usamovie" style="width: 100%;height: 240px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('typemax'));
+    var dataStyle = {
+        normal: {
+            label: {show:false},
+            labelLine: {show:false},
+            shadowBlur: 0,
+            shadowColor: 'rgba(40, 40, 40,0.5)',
+        }
+    };
+
+    option = {
+
+        //        backgroundColor: '#f2f2f2',
+        color: ['#48C2A9', '#89c9e1','#D3D3D3', '#79D2C0'],
+
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            x: '4%',
+            top: '10%',
+            data:['喜剧','爱情','动作','搞笑']
+        },
+        series: [
+            {
+                type:'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                itemStyle: dataStyle,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.percent.toFixed(0) + '%';
+                        },
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true
+
+                    }
+
+                },
+                data:[
+                    {value:480, name:'喜剧'},
+                    {value:320, name:'爱情'},
+                    {value:250, name:'动作'},
+                    {value:145, name:'搞笑'}
+                ]
+            }
+        ]
+    };
+
+    myChart.setOption(option);
+</script>
+
+<script>
+    var myChart = echarts.init(document.getElementById('maincounty'));
+    var colorList = [
+        '#D3D3a3', '#89c9e1','#D3D3D3','#79D2C0','#48C2A9'
+    ];
+
+    var originalData = [
+        {value: 335, name: '印度'},
+        {value: 310, name: '中国'},
+        {value: 234, name: '日本'},
+        {value: 135, name: '韩国'},
+        {value: 1548, name: '美国'}
+    ];
+    echarts.util.each(originalData, function (item, index) {
+        item.itemStyle = {
+            normal: {color: colorList[index]}
+        };
+    });
+
+    var data = [];
+    var legendData = [];
+
+    var dragging;
+    var draggingDataIndex;
+    var dx;
+    var dy;
+    var zr = myChart.getZr();
+
+    resetOption();
+
+    myChart.on('mousedown', function (params) {
+        draggingDataIndex = getHoveredDataIndex(params);
+        if (draggingDataIndex != null) {
+
+            var srcSector = params.event.target;
+            dragging = new echarts.graphic.Sector({
+                shape: echarts.util.extend({}, srcSector.shape),
+                style: {
+                    fill: srcSector.style.fill,
+                    opacity: 0.5
+                },
+                silent: true,
+                z: 10000
+            });
+
+            dx = params.event.offsetX - srcSector.shape.cx;
+            dy = params.event.offsetY - srcSector.shape.cy;
+
+            zr.add(dragging);
+        }
+    });
+
+    myChart.on('mouseup', function (params) {
+        if (dragging) {
+            var targetDataIndex = getHoveredDataIndex(params);
+            if (targetDataIndex != null
+                    && targetDataIndex !== draggingDataIndex
+            ) {
+                data[targetDataIndex].value += data[draggingDataIndex].value;
+                data[targetDataIndex].name += '\n' + data[draggingDataIndex].name;
+                legendData[targetDataIndex] = data[targetDataIndex].name;
+                data.splice(draggingDataIndex, 1);
+                legendData.splice(draggingDataIndex, 1);
+                myChart.setOption({
+                    legend: {data: legendData},
+                    series: {data: data}
+                });
+            }
+        }
+    });
+
+    zr.on('mousemove', function (e) {
+        if (dragging) {
+            dragging.setShape({
+                cx: e.offsetX - dx,
+                cy: e.offsetY - dy
+            });
+        }
+    });
+
+    zr.on('mouseup', function (e) {
+        if (dragging) {
+            zr.remove(dragging);
+            dragging = null;
+        }
+    });
+
+    function getHoveredDataIndex(params) {
+        return params.componentType === 'series'
+                && params.componentSubType === 'pie'
+                && params.dataIndex;
+    }
+
+    function resetOption() {
+        data.length = 0;
+        legendData.length = 0;
+        echarts.util.each(originalData, function (item, index) {
+            data.push({
+                value: item.value,
+                name: item.name,
+                itemStyle: {
+                    normal: {color: item.itemStyle.normal.color}
+                }
+            });
+            legendData.push(item.name);
+        });
+
+        option = {
+
+            title: {
+                bottom: 0,
+                left: 'center',
+                textStyle: {
+                    fontSize: 14,
+                    color: '#777'
+                }
+            },
+
+            tooltip: {},
+            series: [{
+                name: 'pie',
+                type: 'pie',
+                selectedMode: 'single',
+                selectedOffset: 30,
+                clockwise: true,
+
+                labelLine: {
+                    normal: {
+                        lineStyle: {
+                            color: '#333'
+                        }
+                    }
+                },
+                data: data
+            }]
+        };
+        myChart.setOption(option, true);
+    }
+</script>
+
+<script>
+    var myChart = echarts.init(document.getElementById('actormax'));
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        color: [
+            '#48C2A9'
+        ],
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: ['甄子丹','成龙','李连杰','周润发','杰森·斯坦森']
+        },
+        series: [
+            {
+                type: 'bar',
+                data: [54, 56, 78, 90, 120]
+            },
+        ]
+    };
+    myChart.setOption(option);
+</script>
+
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('usamovie'));
+
+    option = {
+        color: ['#48C2A9'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top: '3%',
+            containLabel: true
+        },
+        xAxis : [
+            {
+                type : 'category',
+                data : ['2009', '2010', '2011', '2012', '2013', '2014', '2015'],
+                axisTick: {
+                    alignWithLabel: true
+                }
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'直接访问',
+                type:'bar',
+                barWidth: '60%',
+                data:[10, 52, 200, 334, 390, 330, 220]
+            }
+        ]
+    };
+
+
+    myChart.setOption(option);
+</script>
+
+<script>
+    $(function () {
+        new WOW().init();
+    })
+</script>
+
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
