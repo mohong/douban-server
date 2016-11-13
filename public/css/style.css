@@ -3,3 +3,33 @@ body {
     background: #F0F3F4;
     margin-top: 50px;
 }
+
+#database .data-spider,.data-usertotal {
+    text-align: center;
+    background: #fff;
+    padding: 15px 5px;
+    margin-top: 20px;
+    color: #48C2A9;
+}
+
+#database .data-web,.data-movietotal {
+    text-align: center;
+    background: #48C2A9;
+    padding: 15px 5px;
+    margin-top: 20px;
+    color: #fff;
+}
+#database .data-web p,.data-movietotal p{
+    color: #fff;
+}
+
+#database .col-xs-6 {
+    padding-left: 0;
+}
+
+#database .dbstatus {
+    width:100%;
+    height:265px;
+    background: #fff;
+    margin:20px;
+}
