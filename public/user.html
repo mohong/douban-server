@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>豆瓣用户</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="//cdn.bootcss.com/echarts/3.3.1/echarts.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+    <script src="json/china.js"></script>
+    <script src="js/wow.min.js"></script>
+    <style>
+        #usermap {
+            position: absolute;
+            left:0;
+            top:50px;
+            right:0;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-static-top navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="index.html" class="navbar-brand">Hi,admin</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">后台首页</a></li>
+                <li class="active"><a href="user.html">豆瓣用户</a></li>
+                <li><a href="database.html">数据库</a></li>
+                <li><a href="">内容管理</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-flud">
+    <div id="usermap" class="wow fadeIn"></div>
+</div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('usermap'));
+    myChart.showLoading();//加载数据前显示的动画效果
+
+    //读取豆瓣JSON数据
+    $.getJSON('/Json/weibo.json', function (weiboData) {
+        myChart.hideLoading();//加载数据完成后隐藏动画
+
+        //定义一个Data方法将读取的豆瓣数据根据经纬度组合成新的JSON，用于显示
+
+        Data = function (index) {
+            data = weiboData[index];
+            var px = data[0] / 1000;
+            var py = data[1] / 1000;
+            var res = [[px, py]];
+
+            for (var i = 2; i < data.length; i += 2) {
+                var dx = data[i] / 1000;
+                var dy = data[i + 1] / 1000;
+                var x = px + dx;
+                var y = py + dy;
+                res.push([x, y, 1]);
+
+                px = x;
+                py = y;
+            }
+            return res;
+        };
+
+        //设置参数
+        myChart.setOption(
+                option = {
+                    backgroundColor: '#404a59',
+                    title: {         //标题组件
+
+                        text: '豆瓣用户分布图',
+
+                        subtext: '数据纯属虚构',
+
+                        left: 'center',
+
+                        top: '3%',
+
+                        textStyle: {
+
+                            color: '#fff'
+
+                        }
+
+                    },
+
+                    legend: {        //图例组件
+
+                        left: '6%',
+                        top: '3%',
+
+                        data: ['强', '中', '弱'],
+
+                        textStyle: {
+
+                            color: '#ccc'
+
+                        }
+
+                    },
+
+                    geo: {           //地理坐标系组件
+
+                        name: '强',
+                        zoom: 1.2,
+                        type: 'scatter',
+
+                        map: 'china',
+
+                        label: {
+
+                            emphasis: {
+
+                                show: false
+
+                            }
+
+                        },
+
+                        itemStyle: {
+
+                            normal: {
+
+                                areaColor: '#323c48',
+
+                                borderColor: '#111'
+
+                            },
+
+                            emphasis: {
+
+                                areaColor: '#2a333d'
+
+                            }
+
+                        }
+
+                    },
+
+                    series: [{              //系列列表
+
+                        name: '弱',
+
+                        type: 'scatter',
+
+                        coordinateSystem: 'geo',
+
+                        symbolSize: 1,
+
+                        large: true,
+
+                        itemStyle: {
+
+                            normal: {
+
+                                shadowBlur: 2,
+
+                                shadowColor: 'rgba(37, 140, 249, 0.8)',
+
+                                color: 'rgba(37, 140, 249, 0.8)'
+
+                            }
+
+                        },
+
+                        data: Data(0)
+
+                    }, {
+
+                        name: '中',
+
+                        type: 'scatter',
+
+                        coordinateSystem: 'geo',
+
+                        symbolSize: 1,
+
+                        large: true,
+
+                        itemStyle: {
+
+                            normal: {
+
+                                shadowBlur: 2,
+
+                                shadowColor: 'rgba(14, 241, 242, 0.8)',
+
+                                color: 'rgba(14, 241, 242, 0.8)'
+
+                            }
+
+                        },
+
+                        data: Data(1)
+
+                    }, {
+
+                        name: '强',
+
+                        type: 'scatter',
+
+                        coordinateSystem: 'geo',
+
+                        symbolSize: 1,
+
+                        large: true,
+
+                        itemStyle: {
+
+                            normal: {
+
+                                shadowBlur: 2,
+
+                                shadowColor: 'rgba(255, 255, 255, 0.8)',
+
+                                color: 'rgba(255, 255, 255, 0.8)'
+
+                            }
+
+                        },
+
+                        data: Data(2)
+
+                    }]
+
+                });
+
+    });
+
+    myChart.setOption(option);
+</script>
+
+<script>
+    $(function () {
+        new WOW().init();
+    })
+</script>
+
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
