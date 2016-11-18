@@ -107,7 +107,7 @@ var parse = {
             post: post,
             db_id: db_id
         };
-
+        console.log('没有被封');
         callback(JSON.stringify(movie)+'\r\n');
     }
 };

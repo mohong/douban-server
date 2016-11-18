@@ -11,12 +11,18 @@ module.exports = function (body,callback) {
     var tables = $('#content .article div table').toArray();
     var content = $('#content');
     //var pagesize = $('span.thispage',content).attr('data-total-page');
+    var content = $('div.article p[class="pl2"]').text();
+
     for(var key in tables){
         var table = tables[key];
         var link = $('a.nbg',table).attr('href');
         urls.push(link);
     }
     // return {'url':links,'pagesize':pagesize};
-
-    callback(urls,urls.join('\r\n')+'\r\n');
+    console.log(Boolean(content));
+    if (!Boolean(content)){
+        callback(urls.join('\r\n')+'\r\n');
+    } else {
+        callback(false);
+    }
 };

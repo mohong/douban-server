@@ -4,7 +4,8 @@
  */
 
 var SpiderController = require('../controller/spider.server.controller');
-var ParselinkController = require('../controller/parselink.server.controller')
+var ParselinkController = require('../controller/parselink.server.controller');
+var NewGetDetail = require('../../spider/spider_movie');
 var async = require('async');
 
 module.exports = function (app) {
@@ -21,7 +22,7 @@ module.exports = function (app) {
 
     app.get('/getlinkbyid',function (req,res) {
 
-        var i = 7407;
+        var i = 8800;
         var timer = setInterval(function () {
             ParselinkController.getLinkById(i,Print);
             if (i == 127914){
@@ -35,7 +36,8 @@ module.exports = function (app) {
                i++;
            }else {
                console.log('正在抓取的id:'+i);
-               SpiderController.getDetail(value[0].detaillink);
+               //SpiderController.getDetail(value[0].detaillink);
+               NewGetDetail(value[0].detaillink);
                i++;
            }
         }
