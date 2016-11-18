@@ -5,19 +5,44 @@
 var cheerio = require('cheerio');
 
 var parse = {
-    movie: function (body) {
+    parseMovie: function (body,callback) {
         var $ = cheerio.load(body);
+
+        var title_temp = $('#content h1 span').text();
         //电影名称
-        var title = $('#content h1 span').text();
+        var title = title_temp.substr(0,title_temp.indexOf('('));
+
         //导演
-        var director = $('#info span.attrs').eq(0).text();
+        var director = [];
+            $('#info span.attrs a[rel="v:directedBy"]').each(function () {
+                var director_temp = {};
+                var baseUrl = $(this).attr('href')
+                director_temp.name = $(this).text();
+                director_temp.id = baseUrl.substring(baseUrl.indexOf('/')+11,baseUrl.lastIndexOf('/'));
+                director.push(director_temp);
+            });
+
         //编剧
-        var writer = $('#info span.attrs').eq(1).text();
+        var writer = [];
+            var elem_as = $('#info span.attrs').eq(1);
+            $('a',elem_as).each(function () {
+                var writer_temp = {};
+                var baseUrl = $(this).attr('href');
+                writer_temp.name = $(this).text();
+                writer_temp.id = baseUrl.substring(baseUrl.indexOf('/')+11,baseUrl.lastIndexOf('/'));
+                writer.push(writer_temp);
+            });
+
         //主演
         var actors = [];
-        $('#info span.attrs a').each(function () {
-            actors.push($(this).text());
-        })
+        $('#info span.actor span.attrs a').each(function () {
+            var actor = {};
+            var baseUrl = $(this).attr('href');
+            actor.name = $(this).text();
+            actor.id = baseUrl.substring(baseUrl.indexOf('/')+11,baseUrl.lastIndexOf('/'));
+            actors.push(actor);
+        });
+
         //类型: 喜剧、动作...
         var genre = [];
             $('#info span[property="v:genre"]').each(function () {
@@ -41,6 +66,7 @@ var parse = {
         var madeIn = result[0];
         //语言
         var language = result[1];
+
         //上映日期
         var releaseDate = $('#info span[property="v:initialReleaseDate"]').text();
         //片长
@@ -60,7 +86,10 @@ var parse = {
         //豆瓣id
         var db_id = link.slice(link.indexOf('/')+27,link.lastIndexOf('/'));
 
-        return {
+
+        //电影数据
+
+        var movie = {
             title: title,
             director: director,
             writer: writer,
@@ -78,6 +107,7 @@ var parse = {
             post: post,
             db_id: db_id
         }
+        callback(JSON.stringify(movie)+'\r\n');
     }
 };
 
