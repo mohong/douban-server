@@ -7,7 +7,6 @@ var cheerio = require('cheerio');
 
 module.exports = function (body) {
     var $ = cheerio.load(body);
-    var douban_movie_id = '1';
     var title = $('#content h1 span').text();   //电影名称
 
     var spans = $('#info');
