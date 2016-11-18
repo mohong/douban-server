@@ -106,7 +106,8 @@ var parse = {
             link: link,
             post: post,
             db_id: db_id
-        }
+        };
+
         callback(JSON.stringify(movie)+'\r\n');
     }
 };
