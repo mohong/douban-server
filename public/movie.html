@@ -14,6 +14,12 @@
         .media img {
             width: 150px;
         }
+        .media h4 {
+            width:100%;
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
+        }
     </style>
 </head>
 <body>
@@ -44,16 +50,43 @@
         });
     }
 
-    function showMovie(movie) {
+    function showMovie(data) {
+        var movie = {
+            post : data.post,
+            title : data.title,
+            madeIn : data.madeIn,
+            director: (function (data) {
+                    var temp_direc = [];
+                    for (var item in data.director){
+                        temp_direc.push(data.director[item].name);
+                    }
+                    return temp_direc.toString()
+                })(data),
+            actor: (function (data) {
+                    var temp_direc = [];
+                    for (var item in data.actors){
+                        temp_direc.push(data.actors[item].name);
+                    }
+                    return temp_direc.toString()
+                })(data),
+            rate: data.rate,
+            releaseDate: data.releaseDate
+        };
+
+
         str = '';
-        str += '<div class="col-md-3">';
+        str += '<div class="col-md-6">';
             str += '<div class="media">';
                 str += '<a href="" class="media-left">';
                     str += '<img src="'+movie.post+'" alt="">';
                 str += '</a>';
                 str += '<div class="media-body">';
                     str += '<h4 class="media-heading">'+movie.title+'</h4>';
+                    str += '<p>'+movie.madeIn+'</p>';
+                    str += '<p>'+movie.rate+'</p>';
                     str += '<p>'+movie.director+'</p>';
+                    str += '<p>'+movie.actor+'</p>';
+                    str += '<p>'+movie.releaseDate+'</p>';
                 str += '</div>';
             str += '</div>';
         str += '</div>';
@@ -62,7 +95,7 @@
 
     //分页
     $('#pagenation').twbsPagination({
-        totalPages: 28,
+        totalPages: 38,
         visiblePages: 7,
         href: "?page={{number}}",
         onPageClick: function (event, page) {
