@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>电影</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="//cdn.bootcss.com/jquery/2.2.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="js/jquery.twbsPagination.min.js"></script>
+    <style>
+        .media {
+            margin: 20px;
+        }
+        .media img {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>豆瓣电影</h1>
+    <nav>
+        <ul id="pagenation" class="pagination"></ul><div id="page-content"></div>
+    </nav>
+    <div class="row" id="movie_list">
+
+    </div>
+
+</div>
+
+<script>
+
+    function getMovies(page) {
+        $.getJSON({
+            url: '/',
+            data: {
+                page: page
+            },
+            success: function (movies) {
+                for(var item in movies){
+                    showMovie(movies[item]);
+                }
+            }
+        });
+    }
+
+    function showMovie(movie) {
+        str = '';
+        str += '<div class="col-md-3">';
+            str += '<div class="media">';
+                str += '<a href="" class="media-left">';
+                    str += '<img src="'+movie.post+'" alt="">';
+                str += '</a>';
+                str += '<div class="media-body">';
+                    str += '<h4 class="media-heading">'+movie.title+'</h4>';
+                    str += '<p>'+movie.director+'</p>';
+                str += '</div>';
+            str += '</div>';
+        str += '</div>';
+        $('#movie_list').append(str);
+    };
+
+    //分页
+    $('#pagenation').twbsPagination({
+        totalPages: 28,
+        visiblePages: 7,
+        href: "?page={{number}}",
+        onPageClick: function (event, page) {
+            //$('#page-content').text('Page ' + page);
+            getMovies(page);
+        }
+    });
+
+</script>
+</body>
+</html>

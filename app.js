@@ -3,19 +3,21 @@
  * Created by mohong on 2016/10/31.
  */
 var express = require('express');
-
-
+var WebRouter = require('./app/routers/web_router');
 
 var app = express();
 
-require('./app/routes/spider.server.route')(app);
-require('./app/routes/ratemax.server.route')(app);
-require('./app/routes/starmax.server.route')(app);
+app.listen(4000);
 
-app.listen(3000);
+//CORS middleware
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+};
+app.use(allowCrossDomain);
 
-//挂载静态资源处理中间件
-app.use(express.static(__dirname+"/public"));
 //设置模板视图的目录
 app.set("views","./public/views");
 //设置是否启用视图编译缓存，启用将加快服务器执行效率
@@ -23,16 +25,9 @@ app.set("view cache",false);
 //设置模板引擎的格式即运用何种模板引擎
 app.set("view engine","ejs");
 
-//设置页面跳转路由
-app.get("/analyze",function(req,res){
-    res.render("analyze",{});
-});
-app.get("/regional",function(req,res){
-    res.render("regional",{});
-});
-app.get("/dbreport",function(req,res){
-    res.render("dbreport",{});
-});
+//挂载静态资源处理中间件
+app.use('/public',express.static(__dirname+"/public"));
+//挂载路由
+app.use('/',WebRouter);
 
-
-console.log('sever start , url: http://localhost:3000');
+console.log('sever start , url: http://localhost:4000');
