@@ -7,13 +7,17 @@ var cheerio = require('cheerio');
 var fs = require('fs');
 var ParseTag = require('./parse_tag');
 var parsePageUrl = require('./parse_page_url');
+var parseMovie = require('./parse_movie');
+var MovieModel = require('../app/models/movie');
 
 var arr = [];     //存放标签和对应的总页数
 var toggle = false;
 var currentPageId = 0;
 var totalPages = 0;
 
+var allMovieUrlToggle = false;
 var allMovieUrl = [];
+var allMovieUrlId = 0;
 
 
 getTags(getTotalPageSize);
@@ -26,7 +30,23 @@ var timer = setInterval(function () {
 			getPageUrl(currentPageId++);
 		}
 	}
+},17000);
+
+
+var timer2 = setInterval(function () {
+	if (allMovieUrlToggle) {
+		if (allMovieUrl[allMovieUrlId]){
+			try{
+				getDetail(allMovieUrl[allMovieUrlId++]);
+			} catch (e){
+				console.log(e);
+			}
+		}else {
+			clearInterval(timer2);
+		}
+	}
 },5000);
+
 
 // 1 爬取所有标签,得到标签数组
 function getTags(callback) {
@@ -50,17 +70,14 @@ function getTotalPageSize(tags) {
 				var obj = {};
 				obj['tag'] = tags[i];
 				obj['totalPage'] = totalPage;
-				if (i<3) {
-					totalPages += totalPage;
-				}
+				totalPages += totalPage;
 				console.log('getTotalPageSize函数:',tags[i],totalPage);
 				arr.push(obj);
 			}
 		});
 		i++;
-		if (i == 3) {    //tags.length
+		if (i == tags.length) {    //tags.length
 				toggle = true;
-				console.log(totalPages);
 				clearInterval(PageSizeTimer);
 		}
 	},5000);
@@ -81,7 +98,7 @@ function getPageUrl(currentPageId) {
 		}
 		var pagesize = currentPageId - (sum - pageid);
 		var pageUrl = 'https://movie.douban.com/tag/'+encodeURI(tag) + '?start='+pagesize * 20+'&type=T';
-		console.log('总页码的第'+currentPageId+'页，标签:'+tag+',当前标签的页数:'+pagesize+',当前标签的页码的url:'+pageUrl);
+		//console.log('总页码的第'+currentPageId+'页，标签:'+tag+',当前标签的页数:'+pagesize+',当前标签的页码的url:'+pageUrl);
 		getMovieUrl(pageUrl);
 }
 
@@ -98,5 +115,19 @@ function urlToArray(array) {
 	 for (var i=0; i<array.length; i++) {
 		 allMovieUrl.push(array[i]);
 	 }
-	 console.log('allMovieUrl数组的长度'+allMovieUrl.length);
+		allMovieUrlToggle = true;
+	 console.log('allMovieUrl数组的长度'+allMovieUrl.length+',当前的id为：'+allMovieUrlId);
+}
+
+// 6 遍历allMovieUrl数组，每5S发送一次请求，获取详情。
+function getDetail(url) {
+	request(url,function (err,response,body) {
+		if (!err && response.statusCode == 200){
+			parseMovie(body,function (movie) {
+					MovieModel.addMovie(movie,function (err,result) {
+					console.log('add success: '+url);
+				});
+			});
+		}
+	});
 }

@@ -12,6 +12,5 @@ module.exports = function (body,callback) {
 	      var url = ($('tr td a',this).attr('href'));
 	      urls.push(url);
     });
-		console.log('当前页面共爬取了'+urls.length+'条电影详情url');
 		callback(urls);
 };

@@ -3,6 +3,7 @@
  */
 
 var parseMovie = require('./parse_movie');
+var MovieModel = require('../app/models/movie');
 
 var request = require('request');
 
@@ -12,7 +13,11 @@ getMovieUrl(pageUrl);
 function getMovieUrl(pageUrl) {
 	request(pageUrl,function (err,response,body) {
 		if (!err && response.statusCode == 200){
-			parseMovie(body);
+			parseMovie(body,function (movie) {
+					MovieModel.addMovie(movie,function (err,result) {
+							console.log('add success');
+					});
+			});
 		}
 	});
 }

@@ -5,7 +5,7 @@
 var cheerio = require('cheerio');
 
 var parse = {
-    parseMovie: function (body) {
+    parseMovie: function (body,callback) {
         var $ = cheerio.load(body);
 
         var title_temp = $('#content h1 span').text();
@@ -121,11 +121,9 @@ var parse = {
 	          related_pic: related_pic,
 	          related_info: related_info
         };
+	    
+	      callback(movie);
         
-        console.log(movie);
-        
-        //console.log('没有被封');
-        //callback(JSON.stringify(movie)+'\r\n');
     }
 };
 

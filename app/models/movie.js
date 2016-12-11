@@ -20,7 +20,9 @@ var MovieSchema = new mongoose.Schema({
     type: String,
     link: String,
     post: String,
-    db_id: String
+    db_id: String,
+		related_pic: Array,
+		related_info: String
 });
 
 MovieSchema.statics.addMovie = function (movie,callback) {
