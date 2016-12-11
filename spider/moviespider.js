@@ -6,10 +6,15 @@ var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
 var ParseTag = require('./parse_tag');
-var arr = [];
+var parsePageUrl = require('./parse_page_url');
+
+var arr = [];     //存放标签和对应的总页数
 var toggle = false;
 var currentPageId = 0;
 var totalPages = 0;
+
+var allMovieUrl = [];
+
 
 getTags(getTotalPageSize);
 
@@ -21,7 +26,7 @@ var timer = setInterval(function () {
 			getPageUrl(currentPageId++);
 		}
 	}
-},10);
+},5000);
 
 // 1 爬取所有标签,得到标签数组
 function getTags(callback) {
@@ -77,4 +82,21 @@ function getPageUrl(currentPageId) {
 		var pagesize = currentPageId - (sum - pageid);
 		var pageUrl = 'https://movie.douban.com/tag/'+encodeURI(tag) + '?start='+pagesize * 20+'&type=T';
 		console.log('总页码的第'+currentPageId+'页，标签:'+tag+',当前标签的页数:'+pagesize+',当前标签的页码的url:'+pageUrl);
+		getMovieUrl(pageUrl);
+}
+
+// 4 输入一个页码的url，获取当前页的电影详情url（小于等于20个）
+function getMovieUrl(pageUrl) {
+	request(pageUrl,function (err,response,body) {
+		if (!err && response.statusCode == 200){
+			parsePageUrl(body,urlToArray);
+		}
+	});
+}
+// 5 遍历20个url的数组，存入全局数组 allMovieUrl
+function urlToArray(array) {
+	 for (var i=0; i<array.length; i++) {
+		 allMovieUrl.push(array[i]);
+	 }
+	 console.log('allMovieUrl数组的长度'+allMovieUrl.length);
 }

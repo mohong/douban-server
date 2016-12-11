@@ -5,7 +5,7 @@
 var cheerio = require('cheerio');
 
 var parse = {
-    parseMovie: function (body,callback) {
+    parseMovie: function (body) {
         var $ = cheerio.load(body);
 
         var title_temp = $('#content h1 span').text();
@@ -74,7 +74,11 @@ var parse = {
         //评分
         var rate = $('#interest_sectl strong[class="ll rating_num"]').text();
         //星级数
-        var star = $('#interest_sectl div.rating_right').children()[0].attribs.class.substr(10,2);
+        var star = null;
+	          var condtion = $('#interest_sectl div.rating_right').children()[0];
+	          if (condtion){
+		          star = $('#interest_sectl div.rating_right').children()[0].attribs.class.substr(10,2);
+	          }
         //评价人数
         var ratenum = $('#interest_sectl div.rating_right a span[property="v:votes"]').text();
         //分类： 电视剧、电影
@@ -85,6 +89,14 @@ var parse = {
         var post = $('#mainpic a img')[0].attribs.src;
         //豆瓣id
         var db_id = link.slice(link.indexOf('/')+27,link.lastIndexOf('/'));
+	      //剧情简介
+	      var related_info = $('.related-info span[property="v:summary"]').text().trim();
+	      //剧照
+	      var related_pic = [];
+	        $('#related-pic ul li').each(function () {
+		        var pic = $('a img',this).attr('src');
+		        related_pic.push(pic);
+	        });
 
 
         //电影数据
@@ -105,11 +117,16 @@ var parse = {
             type: type,
             link: link,
             post: post,
-            db_id: db_id
+            db_id: db_id,
+	          related_pic: related_pic,
+	          related_info: related_info
         };
-        console.log('没有被封');
-        callback(JSON.stringify(movie)+'\r\n');
+        
+        console.log(movie);
+        
+        //console.log('没有被封');
+        //callback(JSON.stringify(movie)+'\r\n');
     }
 };
 
-module.exports = parse;
+module.exports = parse.parseMovie;
