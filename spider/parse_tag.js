@@ -9,6 +9,7 @@ module.exports = function (body,callback) {
     $('#content table a').each(function () {
         tags.push($(this).text());
     });
+		console.log('已获取所有标签,共'+tags.length+'个');
     callback(tags);
 };
 
