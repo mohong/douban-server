@@ -28,6 +28,6 @@ app.set("view engine","ejs");
 //挂载静态资源处理中间件
 app.use('/public',express.static(__dirname+"/public"));
 //挂载路由
-app.use('/',WebRouter);
+app.use('/api',WebRouter);
 
 console.log('sever start , url: http://localhost:4000');

@@ -37,4 +37,8 @@ MovieSchema.statics.getMovie = function (movieId,callback) {
     this.findOne({'db_id': movieId},callback);
 };
 
+MovieSchema.statics.searchMovie = function (title,option,callback) {
+		this.find({"title":{$regex:title,$options:'i'}},null,option,callback);
+};
+
 module.exports = mongoose.model('Movie', MovieSchema);
