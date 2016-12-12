@@ -37,6 +37,7 @@ var timer2 = setInterval(function () {
 	if (allMovieUrlToggle) {
 		if (allMovieUrl[allMovieUrlId]){
 			try{
+				console.log('即将爬取的url：'+allMovieUrl[allMovieUrlId++]);
 				getDetail(allMovieUrl[allMovieUrlId++]);
 			} catch (e){
 				console.log(e);
@@ -125,7 +126,7 @@ function getDetail(url) {
 		if (!err && response.statusCode == 200){
 			parseMovie(body,function (movie) {
 					MovieModel.addMovie(movie,function (err,result) {
-					console.log('add success: '+url);
+					console.log('add success');
 				});
 			});
 		}

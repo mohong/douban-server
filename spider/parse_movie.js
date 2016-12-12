@@ -73,32 +73,38 @@ var parse = {
         var runtime = $('#info span[property="v:runtime"]').text();
         //评分
         var rate = $('#interest_sectl strong[class="ll rating_num"]').text();
-        //星级数
+        
+	      //星级数
         var star = null;
 	          var star_condtion = $('#interest_sectl div.rating_right').children()[0];
 	          if (star_condtion){
 		          star = $('#interest_sectl div.rating_right').children()[0].attribs.class.substr(10,2);
 	          }
+	          
         //评价人数
         var ratenum = $('#interest_sectl div.rating_right a span[property="v:votes"]').text();
+	    
         //分类： 电视剧、电影
         var type = null;
 	          var comm_condition = $('div span.rec a')[0];
 	          if (comm_condition) {
 		          type = $('div span.rec a')[0].attribs['data-type'];
 	          }
+	          
         //链接
         var link = null;
 	          if (comm_condition) {
 		          link = $('div span.rec a')[0].attribs['data-url'];
 	          }
+	          
         //海报
         var post = null;
 	          if (comm_condition) {
 		            post = $('#mainpic a img')[0].attribs.src;
 	          }
+	          
         //豆瓣id
-        var db_id = link.slice(link.indexOf('/')+27,link.lastIndexOf('/'));
+        var db_id = (link == null ? null : link.slice(link.indexOf('/')+27,link.lastIndexOf('/')));
 	      //剧情简介
 	      var related_info = $('.related-info span[property="v:summary"]').text().trim();
 	      //剧照
