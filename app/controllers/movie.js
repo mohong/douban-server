@@ -21,7 +21,7 @@ exports.search = function (req,res) {
 		var count = 10;
 		var option = {
 			skip: (page-1)*count,
-			limit: count,
+			limit: count
 		};
 		MovieModel.searchMovie(title,option,function (err,movies) {
 			if (movies && movies != '') {
@@ -38,8 +38,22 @@ exports.nowplaying = function (req,res) {
 			MovieModel.getMovie(id,function (err,movie) {
 				ep.emit('movies',movie);
 			})
-		})
+		});
 		ep.after('movies',nowplaying.length,function (result) {
+			console.log('movies'+result);
+			res.send(result);
+		})
+	});
+};
+
+exports.comingsoon = function (req,res) {
+	redisClient.lrange('comingsoon',0,-1,function (err,comingsoon) {
+		comingsoon.forEach(function (id) {
+			MovieModel.getMovie(id,function (err,movie) {
+				ep.emit('movies',movie);
+			})
+		});
+		ep.after('movies',comingsoon.length,function (result) {
 			console.log('movies'+result);
 			res.send(result);
 		})

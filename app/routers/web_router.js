@@ -19,4 +19,7 @@ router.get('/movie/search/:title',movieController.search);
 //正在热映
 router.get('/movie/nowplaying',movieController.nowplaying);
 
+//即将上映
+router.get('/movie/comingsoon',movieController.comingsoon);
+
 module.exports = router;
