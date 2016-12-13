@@ -45,9 +45,9 @@
 ```
 /api/movie/search/:title
 ```
-| Property | Description | Type | Default |
-|:-------:-|:-----------:|:----:|:-------:|
-|  page    |    页 码    |  int |    0    |
+Property | Description | Type | Default 
+---------|-------------|------|--------
+ page    |    页 码    |  int |    0    
 
 
 
