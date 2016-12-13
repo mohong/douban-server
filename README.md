@@ -1,6 +1,29 @@
 # douban
 基于豆瓣电影的数据分析系统
 
+## API
+### 正在上映
+```
+/api/movie/nowplaying
+```
+### 即将上映
+```
+/api/movie/comingsoon
+```
+### 根据id查询电影详情
+```
+/api/movie/subject/:mid
+```
+### 根据电影名称模糊查询
+```
+/api/movie/search/:title
+```
+Property | Description | Type | Default 
+---------|-------------|------|--------
+ page    |    页 码    |  int |    0    
+
+
+
 ## 源数据
 电影数据均来源于[豆瓣电影](https://movie.douban.com/)，仅供个人学习使用。通过nodejs爬虫爬取电影信息。
 
@@ -28,24 +51,4 @@
 ### 项目难点
 由于node异步的特点，且访问豆瓣的频率限制（大概实现每5s发送一次请求，能避免封号），所以要控制好访问平率。解决的思路是给需要执行的任务设置一个setInterval定时器，然后设置一个toggle和全局计数器，当第一个任务完成后，清除定时器，同时设置toggle为true，当toggle为true时，且第二个任务的定时器又一次执行的时候，第二个任务开始执行，开始维护全局计数器，以此类推。最后完成的效果是：启动爬虫后，访问频率大约5s，获取电影数据，然后持久化。
 
-## API
-### 正在上映
-```
-/api/movie/nowplaying
-```
-### 即将上映
-```
-/api/movie/comingsoon
-```
-### 根据id查询电影详情
-```
-/api/movie/subject/:mid
-```
-### 根据电影名称模糊查询
-```
-/api/movie/search/:title
-```
-Property | Description | Type | Default 
----------|-------------|------|--------
- page    |    页 码    |  int |    0    
 
