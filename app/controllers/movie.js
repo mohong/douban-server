@@ -40,7 +40,6 @@ exports.nowplaying = function (req,res) {
 			})
 		});
 		ep.after('movies',nowplaying.length,function (result) {
-			console.log('movies'+result);
 			res.send(result);
 		})
 	});
@@ -54,7 +53,6 @@ exports.comingsoon = function (req,res) {
 			})
 		});
 		ep.after('movies',comingsoon.length,function (result) {
-			console.log('movies'+result);
 			res.send(result);
 		})
 	});

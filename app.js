@@ -4,6 +4,7 @@
  */
 var express = require('express');
 var WebRouter = require('./app/routers/web_router');
+var spider = require('./spider/spider');
 
 var app = express();
 
@@ -30,4 +31,5 @@ app.use('/public',express.static(__dirname+"/public"));
 //挂载路由
 app.use('/api',WebRouter);
 
+spider();
 console.log('sever start , url: http://localhost:4000');
