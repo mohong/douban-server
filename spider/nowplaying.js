@@ -25,11 +25,13 @@ request(url,function (err,response,body) {
 });
 
 ep.all('arr',function (arr) {
+	client.del('nowplaying');
 	arr.forEach(function (id) {
 		client.exists(id,function (err,result) {
 			result = (result === 1 ? true : false);
 			if (result) {
 				console.log(id+'已经存在');
+				client.rpush('nowplaying',id);
 			} else {
 				needFetchId.push(id);
 			}
@@ -60,6 +62,7 @@ function getDetail(id) {
 				MovieModel.addMovie(movie,function (err,result) {
 					console.log('add success');
 					client.set(id,'');
+					client.rpush('nowplaying',id);
 				});
 			});
 		}
