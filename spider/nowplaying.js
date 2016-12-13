@@ -6,7 +6,7 @@
 var request = require('request');
 var parseNowPlaying = require('./parse_nowplaying');
 var EventProxy = require('eventproxy');
-var client = require('./redis/client');
+var client = require('./../redis_helper');
 var parseMovie = require('./parse_movie');
 var MovieModel = require('../app/models/movie');
 

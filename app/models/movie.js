@@ -2,7 +2,7 @@
  * 电影模型
  * Created by mohong on 2016/11/19.
  */
-var mongoose = require('../../mongoose_heloper');
+var mongoose = require('../../mongoose_helper');
 
 var MovieSchema = new mongoose.Schema({
     title: String,
