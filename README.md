@@ -39,7 +39,7 @@
 ```
 ### 根据id查询电影详情
 ```
-/api/movie/subject/:mid'
+/api/movie/subject/:mid
 ```
 ### 根据电影名称模糊查询
 ```
@@ -49,7 +49,3 @@ Property | Description | Type | Default
 ---------|-------------|------|--------
  page    |    页 码    |  int |    0    
 
-
-
-
-*其他功能正在逐步开发中……*
