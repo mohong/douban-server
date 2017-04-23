@@ -31,5 +31,5 @@ app.use('/public',express.static(__dirname+"/public"));
 //挂载路由
 app.use('/api',WebRouter);
 
-spider();
+// spider();
 console.log('sever start , url: http://localhost:4000');
